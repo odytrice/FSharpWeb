@@ -1,4 +1,5 @@
 namespace FSharpWeb
+open Microsoft.AspNetCore.Mvc
 
 type HomeController() =
     inherit Controller()
@@ -6,11 +7,11 @@ type HomeController() =
     member this.Index() = this.View()
 
     member this.About() =
-        ViewData["Message"] <- "Your application description page.";
+        this.ViewData.["Message"] <- "Your application description page.";
         this.View()
 
     member this.Contact() =
-        ViewData["Message"] <- "Your contact page.";
+        this.ViewData.["Message"] <- "Your contact page.";
         this.View()
 
     member this.Error() = this.View()

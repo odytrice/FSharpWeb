@@ -36,7 +36,11 @@ type Startup (env: IHostingEnvironment) =
             app.UseExceptionHandler("/Home/Error") 
             |> ignore
 
+        
+
         app.UseStaticFiles()
             |> ignore
 
-        app.UseMvc(Action<IRouteBuilder> (fun (routes:IRouteBuilder) -> routes.MapRoute("default","{controller=Home}/{action=Index}/{id?}") |> ignore)) |> ignore        
+        app.UseMvc(fun (routes:IRouteBuilder) -> routes.MapRoute("default","{controller=Home}/{action=Index}/{id?}") |> ignore) |> ignore
+
+        app.UseWelcomePage() |> ignore        
