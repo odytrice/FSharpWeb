@@ -9,6 +9,7 @@ open Microsoft.AspNetCore.Http
 open System.Threading.Tasks
 open Microsoft.FSharp.Control
 open Microsoft.Extensions.Logging
+open System
 
 type Startup (env: IHostingEnvironment) =
     let builder = ConfigurationBuilder()
@@ -19,7 +20,8 @@ type Startup (env: IHostingEnvironment) =
 
     let config = builder.Build()
 
-    member this.ConfigureServices (services: IServiceCollection) = ()
+    member this.ConfigureServices (services: IServiceCollection) =
+        services.AddMvc() |> ignore
 
     member this.Configure (app:IApplicationBuilder) (loggerFactory: ILoggerFactory) =
         loggerFactory.AddConsole(config.GetSection("Logging"))
@@ -34,7 +36,7 @@ type Startup (env: IHostingEnvironment) =
             app.UseExceptionHandler("/Home/Error") 
             |> ignore
 
-        app.UseDefaultFiles()
-            .UseStaticFiles()
+        app.UseStaticFiles()
             |> ignore
-        
+
+        app.UseMvc(Action<IRouteBuilder> (fun (routes:IRouteBuilder) -> routes.MapRoute("default","{controller=Home}/{action=Index}/{id?}") |> ignore)) |> ignore        
